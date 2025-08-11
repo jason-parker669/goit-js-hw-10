@@ -22,7 +22,7 @@ const options = {
   minuteIncrement: 1,
     onClose(selectedDates) {
         userSelectedDate = selectedDates[0];
-      if (userSelectedDate < options.defaultDate) {
+      if (userSelectedDate < new Date()) {
         console.log(userSelectedDate);
         startButton.disabled = true;
         iziToast.warning({
@@ -68,12 +68,15 @@ function showTimer() {
 function processButtonClick() { 
   startButton.disabled = true;
   dateSelector.disabled = true;
-  const timerRefresh = setInterval(showTimer, 1000);
-  setTimeout(() => {
-    clearInterval(timerRefresh);
-    dateSelector.disabled = false;
-    options.defaultDate = new Date();
-  },userSelectedDate - new Date());
+  const timerRefresh = setInterval(() => {
+    if (userSelectedDate <= new Date()) {
+      clearInterval(timerRefresh);
+      dateSelector.disabled = false;
+      options.defaultDate = new Date();
+    }
+    else showTimer();
+    
+   }, 1000);
 }
 
 flatpickr("#datetime-picker", options);
