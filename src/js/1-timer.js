@@ -58,13 +58,11 @@ function convertMs(ms) {
 }
 
 function showTimer() { 
-  const convertedTimeLeft = convertMs(userSelectedDate-options.defaultDate);
+  const convertedTimeLeft = convertMs(userSelectedDate-new Date());
   timeDisplay.days.textContent = String(convertedTimeLeft.days).padStart(2, '0');
   timeDisplay.hours.textContent = String(convertedTimeLeft.hours).padStart(2, '0');
   timeDisplay.minutes.textContent = String(convertedTimeLeft.minutes).padStart(2, '0');
   timeDisplay.seconds.textContent = String(convertedTimeLeft.seconds).padStart(2, '0');
-  userSelectedDate -= 1000;
-
 }
 
 function processButtonClick() { 
@@ -75,7 +73,7 @@ function processButtonClick() {
     clearInterval(timerRefresh);
     dateSelector.disabled = false;
     options.defaultDate = new Date();
-  },userSelectedDate - options.defaultDate+1000);
+  },userSelectedDate - new Date());
 }
 
 flatpickr("#datetime-picker", options);
